@@ -1,0 +1,14 @@
+diff --git a/tests/test_canary_unknown_req.py b/tests/test_canary_unknown_req.py
+new file mode 100644
+index 0000000..2e0a3c5
+--- /dev/null
++++ b/tests/test_canary_unknown_req.py
+@@ -0,0 +1,8 @@
++import pytest
++
++from splitter import split
++
++
++@pytest.mark.req("REQ-SPL-99")
++def test_two_equal_payers():
++    assert split(200, [1, 1]) == [100, 100]

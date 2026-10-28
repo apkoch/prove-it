@@ -1,0 +1,11 @@
+diff --git a/tests/test_canary_untagged.py b/tests/test_canary_untagged.py
+new file mode 100644
+index 0000000..aedd874
+--- /dev/null
++++ b/tests/test_canary_untagged.py
+@@ -0,0 +1,5 @@
++from splitter import split
++
++
++def test_two_equal_payers():
++    assert split(200, [1, 1]) == [100, 100]

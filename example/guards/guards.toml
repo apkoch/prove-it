@@ -1,0 +1,65 @@
+# Every guard, with the canary that must make it fire. `prove-it guards` applies each canary to a
+# sandbox copy of the tree, runs the command, and requires a failure whose output contains every
+# `expect` string. A guard without a canary, or a canary without a guard, fails the run.
+
+# --- Money rules ----------------------------------------------------------------------------
+
+[[guard]]
+name = "float-ban"
+command = "python -m pytest"
+paths = ["tests/test_rules.py"]
+canary = "float-in-allocator.patch"
+expect = ["float is banned in money code", "money.py:28"]
+requirement = "REQ-NFR-01"
+
+[[guard]]
+name = "shares-sum-to-total"
+command = "python -m pytest"
+paths = ["tests/test_split.py"]
+canary = "round-each-share.patch"
+expect = ["Failing test case: test_shares_sum_to_total("]
+requirement = "REQ-SPL-01"
+
+# --- Test-suite rules (the prove-it pytest plugin) ------------------------------------------
+
+[[guard]]
+name = "skip-marker-ban"
+command = "python -m pytest"
+paths = ["tests/test_canary_skip.py"]
+canary = "skip-marker.patch"
+expect = ["@pytest.mark.skip — skip and xfail are banned"]
+
+[[guard]]
+name = "runtime-skip-ban"
+command = "python -m pytest"
+paths = ["tests/test_canary_runtime_skip.py"]
+canary = "runtime-skip.patch"
+expect = ["skipped at run time — skip is banned"]
+
+[[guard]]
+name = "every-test-cites-a-requirement"
+command = "python -m pytest"
+paths = ["tests/test_canary_untagged.py"]
+canary = "untagged-test.patch"
+expect = ["has no @pytest.mark.req(...) tag"]
+
+[[guard]]
+name = "requirements-must-exist"
+command = "python -m pytest"
+paths = ["tests/test_canary_unknown_req.py"]
+canary = "unknown-requirement.patch"
+expect = ["unknown requirement REQ-SPL-99"]
+
+# --- Process rules ----------------------------------------------------------------------------
+
+[[guard]]
+name = "prove-red"
+command = "prove-it red"
+canary = "tautological-test.patch"
+expect = ["test_one_payer_pays_everything", "passes on the code before the change"]
+
+[[guard]]
+name = "trace-coverage"
+command = "prove-it trace"
+canary = "last-test-removed.patch"
+expect = ["REQ-SPL-03 (priority M): no test"]

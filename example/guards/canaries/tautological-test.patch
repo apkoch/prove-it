@@ -1,0 +1,13 @@
+diff --git a/tests/test_split.py b/tests/test_split.py
+index 5cb3021..7b8f08c 100644
+--- a/tests/test_split.py
++++ b/tests/test_split.py
+@@ -35,3 +35,8 @@ def test_leftover_cents_go_to_largest_remainders_then_earliest():
+ def test_rejects_non_positive_weights():
+     with pytest.raises(ValueError):
+         split(100, [1, 0])
++
++
++@pytest.mark.req("REQ-SPL-01")
++def test_one_payer_pays_everything():
++    assert split(250, [3]) == [250]

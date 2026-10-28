@@ -1,0 +1,38 @@
+[project]
+name = "prove-it"
+version = "0.1.0"
+description = "Tests that must prove they can fail, guards that must prove they fire, and requirements that must prove they're tested."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.11"
+dependencies = ["pytest>=8.0"]
+
+[project.scripts]
+prove-it = "prove_it.cli:main"
+
+# Loaded by pytest everywhere prove-it is installed, but inert unless the project's
+# pyproject.toml has a [tool.prove-it] table.
+[project.entry-points.pytest11]
+prove_it = "prove_it.pytest_plugin"
+
+[dependency-groups]
+dev = ["hypothesis>=6.100", "ruff>=0.6"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--strict-markers"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+extend-exclude = ["example/guards/canaries"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["prove_it", "splitter"]

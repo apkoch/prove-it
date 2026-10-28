@@ -1,0 +1,12 @@
+diff --git a/tests/test_canary_runtime_skip.py b/tests/test_canary_runtime_skip.py
+new file mode 100644
+index 0000000..279ac54
+--- /dev/null
++++ b/tests/test_canary_runtime_skip.py
+@@ -0,0 +1,6 @@
++import pytest
++
++
++@pytest.mark.req("REQ-SPL-05")
++def test_tip_is_added():
++    pytest.skip("tips aren't built yet")

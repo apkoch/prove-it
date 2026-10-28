@@ -1,0 +1,16 @@
+# A small bill-splitting library, here to show prove-it working on a real (if tiny) codebase.
+# It has no [project] table: run its commands from the repository's environment (see justfile).
+
+[tool.prove-it]
+requirements = "requirements.md"
+test_command = ["python", "-m", "pytest"]
+tests = ["tests"]
+from_change = ["pyproject.toml", "requirements.md"]
+guards = "guards/guards.toml"
+canaries = "guards/canaries"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+addopts = "--strict-markers"
+xfail_strict = true
